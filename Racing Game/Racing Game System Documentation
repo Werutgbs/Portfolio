@@ -1,0 +1,295 @@
+# Racing Game System Documentation
+
+## Overview
+
+This documentation covers three core systems in the racing game: the **Bird's Eye Camera**, **Race Track**, and **Racer Controller**. These systems work together to create a dynamic racing experience where a camera follows racers along a spline-based track.
+
+## Architecture Diagram
+
+```
+┌─────────────────┐
+│ BirdEyeCamera   │──────┐
+└─────────────────┘      │
+         │               │
+         │ observes      │ queries
+         ▼               ▼
+┌─────────────────┐   ┌──────────────┐
+│ RacerController │───│  RaceTrack   │
+└─────────────────┘   └──────────────┘
+         │               │
+         │ updates       │ provides
+         │ position      │ geometry
+         └───────────────┘
+```
+
+---
+
+## 1. RaceTrack System
+
+### Purpose
+The `RaceTrack` class manages the physical track geometry and provides spatial queries for positioning objects along the track.
+
+### Key Concepts
+
+#### Phase System (0.0 - 1.0)
+- **Phase** is a normalized position along the track (0.0 = start, 1.0 = complete lap)
+- All positions are calculated relative to phase, not world coordinates
+- Allows smooth interpolation regardless of track length
+
+#### Lane System
+- Tracks have multiple parallel lanes (numbered 1 to N)
+- Each lane is offset from the center by `laneWidth`
+- Lane 0 (internal) represents the geometric center
+
+#### Bezier Spline
+- Track shape is defined by a 2D Bezier spline
+- `SplinePoseCalculator` converts phase → 3D world position
+- Supports curves, straights, and complex track shapes
+
+### Important Methods
+
+```csharp
+// Get position and orientation for a specific lane at a phase
+ObjectPose GetPose(int laneId, float phase)
+
+// Get position for the center lane
+ObjectPose GetPose(float phase)
+
+// Calculate track curvature (0 = straight, higher = sharper turn)
+float Curvature(float phase)
+
+// Check if an obstacle exists at a phase
+bool ObstacleExists(int laneId, float phase)
+```
+
+### ObjectPose Structure
+```csharp
+struct ObjectPose {
+    Vector3 position;  // World space position
+    Vector3 forward;   // Direction racer should face
+}
+```
+
+---
+
+## 2. RacerController System
+
+### Purpose
+Manages individual racers, including their physics state, visual representation, animations, and UI.
+
+### Key Components
+
+#### RacerState
+Current dynamic state of the racer:
+- `Phase`: Position on track (0.0-1.0)
+- `Speed`: Current velocity
+- `Lap`: Current lap number
+
+#### RacerStats
+Static properties of the racer:
+- `TopSpeed`: Maximum velocity
+- Other performance characteristics
+
+#### IRacerBrain
+Controls racer behavior (AI or player input):
+- Calculates next state based on current conditions
+- Handles skill activation
+- Manages race progress
+
+### Update Flow
+
+```
+1. UpdateRacer(time) called each frame
+2. Get new state from IRacerBrain
+3. Update skill effects and UI
+4. Check for lap changes
+5. UpdateRacerPosition(phase) → query RaceTrack
+6. Set transform position and rotation
+```
+
+### Events
+- `OnStateUpdated`: Fired when racer state changes
+- `OnLapUpdated`: Fired when racer completes a lap
+- `OnRaceFinishUpdated`: Fired when racer finishes race
+- `OnRacerClicked`: Fired when player clicks on racer
+
+---
+
+## 3. BirdEyeCamera System
+
+### Purpose
+A dynamic overhead camera that automatically frames the action by:
+- Following the focused racer along the track
+- Zooming to include all nearby racers
+- Adjusting for racer speed (zooms out at high speed)
+
+### Camera Algorithm
+
+#### Following Logic (in `Follow()`)
+
+1. **Target Calculation**
+   - Get focused racer's phase
+   - Calculate distance between camera and racer
+   
+2. **Speed Matching**
+   - If racer is close: smoothly catch up using interpolated speed
+   - If racer is far (> `maxTweenLength`): teleport camera
+   
+3. **Position Update**
+   - Get world position from track at camera's phase
+   - Offset camera backward by zoom distance
+
+```
+Camera Position = Track Position - (zoom distance × camera forward)
+```
+
+#### Zoom Logic (in `UpdateZoom()`)
+
+1. **Calculate Bounding Box**
+   - Project all nearby racers into camera space (2D)
+   - Include look-ahead positions (where racers will be)
+   - Add minimum padding around focused racer
+
+2. **Field of View Math**
+   - Calculate required distance to fit bounding box
+   - `dx = horizontal_size / tan(FOV) / aspect_ratio`
+   - `dy = vertical_size / tan(FOV)`
+   - Use maximum of dx, dy
+
+3. **Speed-Based Multiplier**
+   - Zoom out more at higher speeds (feels more cinematic)
+   - Interpolate between 1.0x and `zoomOutSpeedMultiplier`
+
+4. **Smooth Transition**
+   - Exponential lerp to desired zoom (feels natural)
+   - Controlled by `cameraZoomSpeed`
+
+### Key Parameters
+
+| Parameter | Purpose |
+|-----------|---------|
+| `zoomOutMultiplier` | Base zoom distance multiplier |
+| `zoomOutSpeedMultiplier` | Additional zoom at max speed |
+| `cameraSpeed` | How fast camera tracks racer |
+| `cameraZoomSpeed` | How fast zoom transitions |
+| `lookAhead` | Distance to predict racer movement |
+| `maxTweenLength` | Distance before camera teleports |
+| `zoomRange` | Min/max distances for including racers |
+
+---
+
+## Data Flow Example
+
+### Frame Update Sequence
+
+```
+1. Player Input / AI Decision
+   ↓
+2. RacerBrain calculates new state
+   ↓
+3. RacerController.UpdateRacer()
+   - Updates RacerState (phase, speed, lap)
+   - Queries RaceTrack.GetPose(laneId, phase)
+   - Moves transform to new position
+   ↓
+4. BirdEyeCamera.LateUpdate()
+   - Reads racer positions
+   - Calculates optimal framing
+   - Updates camera position via RaceTrack.GetPose()
+```
+
+### Phase Progression Example
+
+```
+Frame 1: Racer at phase 0.25, speed 10 m/s
+         → RaceTrack returns position at 25% of track
+         
+Frame 2: Racer at phase 0.27, speed 10 m/s
+         → Camera follows to phase 0.26 (catching up)
+         → RaceTrack returns new position
+         
+Frame 3: Racer completes lap, phase wraps to 0.02
+         → Lap counter increments
+         → OnLapUpdated event fired
+```
+
+---
+
+## Common Patterns
+
+### Phase Wrapping
+Phase values wrap at 1.0:
+```csharp
+phase = phase % 1.0f;  // 1.1 becomes 0.1
+```
+
+### Distance to Phase Conversion
+```csharp
+float phaseToDistance = trackLength;
+float distanceToPhase = 1.0f / trackLength;
+
+// Distance traveled per second
+float distance = speed * deltaTime;
+// Convert to phase change
+float phaseChange = distance * distanceToPhase;
+```
+
+### Smooth Camera Movement
+```csharp
+// Exponential decay interpolation (frame-rate independent)
+current = Mathf.Lerp(current, target, 1.0f - Mathf.Exp(-deltaTime * speed));
+```
+
+---
+
+## Troubleshooting
+
+### Camera jumps or jitters
+- Check `maxTweenLength` isn't too small
+- Verify `cameraSpeed` is appropriate for racer speeds
+- Ensure track spline is smooth (no discontinuities)
+
+### Racers appear off-track
+- Verify lane numbers match track's `NumLanes`
+- Check `TrackCenterOffset` calculation
+- Ensure `laneWidth` is set correctly
+
+### Camera doesn't frame all racers
+- Adjust `zoomRange.max` to include more distant racers
+- Increase `zoomOutMultiplier` for wider framing
+- Check `lookAhead` for better prediction
+
+---
+
+## Extension Points
+
+### Adding New Camera Behaviors
+Inherit from `MatchVirtualCamera` and implement custom follow logic
+
+### Custom Racer AI
+Implement `IRacerBrain` interface:
+```csharp
+RacerState GetCurrentRacerState(long currentTime);
+```
+
+### Track Modifications
+Extend `RaceTrack` to add:
+- Dynamic obstacles
+- Speed boost zones
+- Shortcuts
+
+---
+
+## Performance Considerations
+
+- **BirdEyeCamera**: Calculates zoom every frame for all racers
+  - Optimize by caching nearby racer list
+  - Consider updating zoom less frequently (every N frames)
+
+- **RaceTrack**: Spline calculations can be expensive
+  - `SplinePoseCalculator` likely caches interpolated positions
+  - Avoid creating new pose requests in tight loops
+
+- **RacerController**: Updates every frame per racer
+  - State updates are lightweight
+  - Expensive operations (animations, VFX) should be event-driven
