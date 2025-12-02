@@ -71,11 +71,6 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 - Memory management and garbage collection reduction
 - Frame rate optimization (60fps targets achieved)
 
-**Multiplayer & Networking**
-- Real-time networking with client-side prediction
-- Latency compensation and synchronization
-- WebSocket implementation
-
 **Game Systems**
 - Physics-based movement and collision
 - AI systems (pathfinding, targeting, state machines)
