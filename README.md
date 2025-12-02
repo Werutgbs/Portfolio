@@ -11,7 +11,7 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 ### 1. Alpaca Dash - Multiplayer Racing Game
 > Multiplayer alpaca racing game with physics-based movement and dynamic camera system
 
-![Gameplay GIF](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXJicmphNXBtc2lwaWJvM2FuYWQzaWlvcWltNTh5Ym96ODl3Ynk1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uA4dY50eqbe80O8ueC/giphy.gif)
+![Gameplay GIF](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWtqamdhMDRtcTFrb3h5djVpYXE0dzVpdnNmMG1ydWdxcXd6dTB4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Piuhu2a0pja3ke8Jcl/giphy.gif)
 
 **What it does**: Multiplayer racing game featuring dynamic camera work, physics-based character movement, and smooth online synchronization.
 
