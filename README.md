@@ -23,9 +23,9 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 **Tech Stack**: Unity, C#, Physics System, Custom Networking, Bezier Math
 
 **Code Samples**:
-- [BirdEyeCamera.cs](./AlpacaDash/BirdEyeCamera.cs) - Dynamic camera implementation
-- [RacerController.cs](./AlpacaDash/RacerController.cs) - Character controller with state management
-- [RaceTrack.cs](./AlpacaDash/RaceTrack.cs) - Procedural track generation
+- [BirdEyeCamera.cs](./Racing Game/BirdEyeCamera.cs) - Dynamic camera implementation
+- [RacerController.cs](./Racing Game/RacerController.cs) - Character controller with state management
+- [RaceTrack.cs](./Racing Game/RaceTrack.cs) - Procedural track generation
 
 [▶️ Watch Full Gameplay Video](https://www.youtube.com/watch?v=eKRgoRmziBs) | [📥 Play WebGL Build](https://play.almightyalpacas.com/)
 
@@ -52,9 +52,9 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 **Tech Stack**: Unity DOTS, ECS, Burst Compiler, Job System, C#
 
 **Code Samples**:
-- [UnitMoverSystem.cs](./BasicRTS/UnitMoverSystem.cs) - Burst-compiled movement system
-- [ShootAttackSystem.cs](./BasicRTS/ShootAttackSystem.cs) - AI combat implementation
-- [UnitMoverAuthoring.cs](./BasicRTS/UnitMoverAuthoring.cs) - GameObject to Entity conversion
+- [UnitMoverSystem.cs](./RTS Game/UnitMoverSystem.cs) - Burst-compiled movement system
+- [ShootAttackSystem.cs](./RTS Game/ShootAttackSystem.cs) - AI combat implementation
+- [UnitMoverAuthoring.cs](./RTS Game/UnitMoverAuthoring.cs) - GameObject to Entity conversion
 
 
 ---
