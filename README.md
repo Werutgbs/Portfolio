@@ -23,9 +23,9 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 **Tech Stack**: Unity, C#, Physics System, Custom Networking, Bezier Math
 
 **Code Samples**:
-- [BirdEyeCamera.cs](./Racing Game/BirdEyeCamera.cs) - Dynamic camera implementation
-- [RacerController.cs](./Racing Game/RacerController.cs) - Character controller with state management
-- [RaceTrack.cs](./Racing Game/RaceTrack.cs) - Procedural track generation
+- [BirdEyeCamera.cs](./Racing%20Game/BirdEyeCamera.cs) - Dynamic camera implementation
+- [RacerController.cs](./Racing%20Game/RacerController.cs) - Character controller with state management
+- [RaceTrack.cs](./Racing%20Game/RaceTrack.cs) - Procedural track generation
 
 [▶️ Watch Full Gameplay Video](https://www.youtube.com/watch?v=eKRgoRmziBs) | [📥 Play WebGL Build](https://play.almightyalpacas.com/)
 
@@ -54,7 +54,7 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 **Code Samples**:
 - [UnitMoverSystem.cs](./RTS%20Game/UnitMoverSystem.cs) - Burst-compiled movement system
 - [ShootAttackSystem.cs](./RTS%20Game/ShootAttackSystem.cs) - AI combat implementation
-- [UnitMoverAuthoring.cs](./RTS%20Game"/UnitMoverAuthoring.cs) - GameObject to Entity conversion
+- [UnitMoverAuthoring.cs](./RTS%20Game/UnitMoverAuthoring.cs) - GameObject to Entity conversion
 
 
 ---
