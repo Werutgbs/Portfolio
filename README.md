@@ -2,7 +2,7 @@
 
 Senior Unity Developer specializing in multiplayer systems, performance optimization, and scalable game architecture.
 
-📧 werutgbs@gmail.com | 💼 [LinkedIn](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/) | 📱 +39 392 0840990
+📧 werutgbs@gmail.com | 💼 [LinkedIn](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/) 
 
 ---
 
