@@ -52,9 +52,9 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 **Tech Stack**: Unity DOTS, ECS, Burst Compiler, Job System, C#
 
 **Code Samples**:
-- [UnitMoverSystem.cs](./RTS Game/UnitMoverSystem.cs) - Burst-compiled movement system
-- [ShootAttackSystem.cs](./RTS Game/ShootAttackSystem.cs) - AI combat implementation
-- [UnitMoverAuthoring.cs](./RTS Game/UnitMoverAuthoring.cs) - GameObject to Entity conversion
+- [UnitMoverSystem.cs](./RTS_Game/UnitMoverSystem.cs) - Burst-compiled movement system
+- [ShootAttackSystem.cs](./RTS_Game/ShootAttackSystem.cs) - AI combat implementation
+- [UnitMoverAuthoring.cs](./RTS_Game"/UnitMoverAuthoring.cs) - GameObject to Entity conversion
 
 
 ---
