@@ -2,13 +2,41 @@
 
 Senior Unity Developer specializing in multiplayer systems, performance optimization, and scalable game architecture.
 
-📧 werutgbs@gmail.com | 💼 [LinkedIn](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/) 
+📧 werutgbs@gmail.com | 💼 [LinkedIn](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/)
 
 ---
 
 ## 🎮 Featured Projects
 
-### 1. Alpaca Dash - Multiplayer Racing Game
+### 1. Dice Animation System - Deterministic Multiplayer Solution
+> WebGL-optimized 3D dice system combining pre-recorded physics with runtime visual manipulation for server-authoritative multiplayer gameplay
+
+**The Problem**: Building a multiplayer board game required 3D dice rolls with results determined by the backend server, but Unity's physics engine was too heavy for WebGL and couldn't be synchronized reliably across clients.
+
+**The Solution**: A two-phase system that records physics simulations in the editor as lightweight animation data, then plays them back at runtime with a clever visual trick—rotating the dice mesh *before* playback to match server-determined results.
+
+**Technical Highlights**:
+- **Zero Runtime Physics**: Pre-recorded animations eliminate physics overhead entirely
+- **Visual Result Manipulation**: Parent transform plays animation while child transform rotates to show correct result
+- **Smart Animation Pooling**: Prevents duplicate animations across multiple simultaneous dice rolls
+- **Memory Efficient**: Frame data stored as simple Vector3/Quaternion arrays, not AnimationClips
+
+**Key Results**:
+- 60 FPS on WebGL (vs ~30 FPS with real-time physics)
+- 100% deterministic results from backend
+- <5MB for 100+ unique dice roll animations
+- Designer-friendly editor workflow with auto-generation tools
+
+**Tech Stack**: Unity, C#, Odin Inspector, Custom Animation System
+
+**Code Samples**:
+- [DiceManager.cs](./Dice%20System/DiceManager.cs) - Multi-player coordination and animation pooling
+- [DiceAnimationPlayer.cs](./Dice%20System/DiceAnimationPlayer.cs) - Playback system with visual manipulation
+- [DiceAnimationRecorder.cs](./Dice%20System/DiceAnimationRecorder.cs) - Editor tool for generating animations
+
+---
+
+### 2. Alpaca Dash - Multiplayer Racing Game
 > Multiplayer alpaca racing game with physics-based movement and dynamic camera system
 
 ![Gameplay GIF](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWd6bDk1c3drODk5aHoxdGRjc2N1bThvdDF6bnYxdHRqM3VvZG5sOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7FVOtuWaQ6fBEOX1Dz/giphy.gif)
@@ -31,7 +59,7 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 
 ---
 
-### 2. Basic RTS - Data-Oriented Design Demo
+### 3. Basic RTS - Data-Oriented Design Demo
 > Large-scale RTS demonstrating Unity DOTS/ECS for managing thousands of units
 
 ![RTS Demo GIF](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmE4Y212NXNmOHhwYnhucWh3OG5uZ2J4MzJ4aTVjZnFmNTV6eWd6YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RcKq2lR7udgJXzuWdg/giphy.gif)
@@ -56,8 +84,9 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 - [ShootAttackSystem.cs](./RTS%20Game/ShootAttackSystem.cs) - AI combat implementation
 - [UnitMoverAuthoring.cs](./RTS%20Game/UnitMoverAuthoring.cs) - GameObject to Entity conversion
 
+---
 
-## 📫 Contact & Links
+## 📫 Contact
 
 - **Email**: werutgbs@gmail.com
-- **LinkedIn**: [Your Profile](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/)
+- **LinkedIn**: [linkedin.com/in/ilia-guchashvili-310b1321a](https://www.linkedin.com/in/ilia-guchashvili-310b1321a/)
