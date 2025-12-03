@@ -57,29 +57,6 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 - [UnitMoverAuthoring.cs](./RTS%20Game/UnitMoverAuthoring.cs) - GameObject to Entity conversion
 
 
----
-
-## 💻 Technical Skills Demonstrated
-
-**Architecture & Design**
-- SOLID Principles, ECS Architecture, Event-Driven Design
-- Scalable systems supporting 1000+ entities
-- Clean, maintainable code with interface-based patterns
-
-**Performance Optimization**
-- Unity Burst Compiler & Job System
-- Memory management and garbage collection reduction
-- Frame rate optimization (60fps targets achieved)
-
-**Game Systems**
-- Physics-based movement and collision
-- AI systems (pathfinding, targeting, state machines)
-- Camera systems (dynamic, cinematic)
-- Procedural generation (Bezier splines, track generation)
-
----
-
-
 ## 📫 Contact & Links
 
 - **Email**: werutgbs@gmail.com
