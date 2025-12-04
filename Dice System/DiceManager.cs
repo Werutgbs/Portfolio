@@ -15,21 +15,18 @@ namespace Dice_Animations
     {
         #region Serialized Fields
 
-        [BoxGroup("Setup")]
-        [SerializeField] private Dictionary<TeamColor, DiceAnimationPlayer> playerDices = new();
-        
-        [BoxGroup("Setup")]
-        [SerializeField] private Dictionary<TeamColor, Material> diceMaterials;
+        [BoxGroup("Setup")] [SerializeField] private Dictionary<TeamColor, DiceAnimationPlayer> playerDices = new();
 
-        [BoxGroup("Data")]
-        [Required] public DiceAnimationData animationData;
+        [BoxGroup("Data")] [Required] public DiceAnimationData animationData;
+
+        [BoxGroup("Controls"), Range(1, 6), SerializeField]
+        private int result = 6;
 
         #endregion
 
         #region Inspector Debug Info
 
-        [BoxGroup("Runtime Info")]
-        [ReadOnly, ShowInInspector]
+        [BoxGroup("Runtime Info")] [ReadOnly, ShowInInspector]
         private Dictionary<TeamColor, DiceRollState> playerStates = new();
 
         [BoxGroup("Runtime Info")]
@@ -79,7 +76,6 @@ namespace Dice_Animations
             }
 
             InitializePlayerStates();
-            InitializeDicePlayers();
         }
 
         private void InitializePlayerStates()
@@ -92,21 +88,6 @@ namespace Dice_Animations
                     currentResult = -1,
                     animationName = string.Empty
                 };
-            }
-        }
-
-        private void InitializeDicePlayers()
-        {
-            foreach (var (color, player) in playerDices)
-            {
-                if (player != null)
-                {
-                    player.Hide();
-                    if (diceMaterials.TryGetValue(color, out var material))
-                    {
-                        player.Initialize(material);
-                    }
-                }
             }
         }
 
@@ -176,7 +157,7 @@ namespace Dice_Animations
         private void HandleAnimationComplete(TeamColor color, DiceAnimationPlayer player)
         {
             var state = playerStates[color];
-            
+
             // Release animation for reuse
             if (activeAnimationNames.TryGetValue(color, out var animName))
             {
@@ -261,14 +242,14 @@ namespace Dice_Animations
         #region Query Methods
 
         public bool IsAnyRolling() => playerStates.Values.Any(s => s.isRolling);
-        
-        public bool IsPlayerRolling(TeamColor player) => 
+
+        public bool IsPlayerRolling(TeamColor player) =>
             playerStates.TryGetValue(player, out var state) && state.isRolling;
-        
-        public int GetPlayerResult(TeamColor player) => 
+
+        public int GetPlayerResult(TeamColor player) =>
             playerStates.TryGetValue(player, out var state) ? state.currentResult : -1;
-        
-        public string GetPlayerAnimation(TeamColor player) => 
+
+        public string GetPlayerAnimation(TeamColor player) =>
             playerStates.TryGetValue(player, out var state) ? state.animationName : string.Empty;
 
         #endregion
@@ -357,7 +338,7 @@ namespace Dice_Animations
         [BoxGroup("Controls")]
         [Button("Roll All Players", ButtonSizes.Large)]
         [EnableIf("@!IsAnyRolling()")]
-        private void EditorRollAll() => RollAllPlayers(UnityEngine.Random.Range(1, 7));
+        private void EditorRollAll() => RollAllPlayers(result);
 
         [BoxGroup("Controls")]
         [Button("Stop All")]
@@ -369,15 +350,15 @@ namespace Dice_Animations
         private void EditorLogStats()
         {
             if (animationData == null) return;
-            
+
             var stats = animationData.GetResultStatistics();
             var msg = $"Animations: {animationData.AnimationCount} total, {AnimationsInUse} in use\n";
-            
+
             for (int i = 1; i <= 6; i++)
             {
                 msg += $"Result {i}: {stats[i]} animations\n";
             }
-            
+
             Debug.Log(msg);
         }
 

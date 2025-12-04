@@ -11,6 +11,10 @@ Senior Unity Developer specializing in multiplayer systems, performance optimiza
 ### 1. Dice Animation System - Deterministic Multiplayer Solution
 > WebGL-optimized 3D dice system combining pre-recorded physics with runtime visual manipulation for server-authoritative multiplayer gameplay
 
+
+![Gameplay GIF](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWNqZm1zdHRlM29kbGQzNnBseXo4cG1qbzRvNDZnMHQyeWg4MHNpMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lHKvJShTUdnHklyk0v/giphy.gif)
+
+
 **The Problem**: Building a multiplayer board game required 3D dice rolls with results determined by the backend server, but Unity's physics engine was too heavy for WebGL and couldn't be synchronized reliably across clients.
 
 **The Solution**: A two-phase system that records physics simulations in the editor as lightweight animation data, then plays them back at runtime with a clever visual trick—rotating the dice mesh *before* playback to match server-determined results.
